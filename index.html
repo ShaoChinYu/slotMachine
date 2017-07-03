@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #container
+        {
+            position: fixed;
+            top:0;
+            left:30%;
+            width: 831px;
+            height:1239px;
+            background: lightgray;
+            overflow: hidden;
+            -webkit-transform: scale(0.8); //缩放整体大小
+        }
+        #col1
+        {
+            height: 1239px;
+            width: 277px;
+        }
+
+
+        .webkfaid
+        {
+            position:relative;
+            animation:mymove 100ms infinite;
+        }
+
+
+        @keyframes mymove
+        {
+            from {top:0px;}
+            to {top:-826px;}
+        }
+        .card{
+            width:277px;
+            height:413px;
+        }
+        </style>
+</head>
+<body>
+
+<button onclick="gameStart();">Start</button>
+<div id="container">
+    <div id="col1">
+        <div  class="card"></div>
+        <div  class="card"></div>
+        <div  class="card"></div>
+        <div  class="card"></div>
+        <div  class="card"></div>
+    </div>
+</div>
+
+</body>
+<script>
+    var col1 = document.getElementById('col1');
+    var cards = document.getElementsByClassName('card');
+    /*
+    通过添加/删除 ClassName来控制动画开始与结束
+     */
+    var gameStart = function(){
+        console.log('game start');
+        col1.classList.add('webkfaid'); //添加动画类名
+        setTimeout(gameStop,2000); //2秒后结束
+    }
+
+    var gameStop = function(){
+        console.log('game stop');
+        setBackgroundImage(cards);
+        col1.classList.remove('webkfaid'); //移除动画类名
+    }
+
+    var gameInit = function(){
+        setBackgroundImage(cards);
+    }
+    var setBackgroundImage = function(elements){
+        var index = [1,2,3,4,5,6,7,8,9,10];//10张牌
+        for(let i =0;i<elements.length;i++){//对每个元素随机选择背景
+            unsort(index);
+            var current_index = index.pop();//被选择的出栈，防止重复
+            console.log(index +'current'+current_index);
+            let imgPath = 'img/'+current_index+'.png'; //拼接成字符串
+            elements[i].style.backgroundImage="url("+imgPath+")";//设置背景图
+        }
+    }
+    var unsort = function(array){
+        array.sort(function(){ return 0.5 - Math.random() }); //打乱数组，无法保证每个数字出现几率相等
+    }
+
+    /*
+    初始化
+     */
+    window.onload = gameInit();
+
+</script>
+</html>
